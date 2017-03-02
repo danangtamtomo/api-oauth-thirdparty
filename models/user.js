@@ -22,7 +22,7 @@ userSchema.methods.validPassword = function (password) {
   if (this.model('User').password !== password) {
     return false
   }
-  
+
   return true
 }
 
