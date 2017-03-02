@@ -2,7 +2,7 @@ var User = require('../models/user')
 
 var Users = {}
 
-Users.getBooks = function (req, res, next) {
+Users.getUsers = function (req, res, next) {
   User.find({})
     .then(function (users) {
       res.send(users)
@@ -15,7 +15,7 @@ Users.createUser = function (req, res, next) {
     .then(function (user) {
       res.send({
         status: 'Ok',
-        message: 'New book has been created',
+        message: 'New user has been created',
         book: book
       })
     }).catch(function (err) {
@@ -26,29 +26,29 @@ Users.createUser = function (req, res, next) {
   })
 }
 
-Books.updateBook = function (req, res, next) {
-  Book.update({
+Users.updateBook = function (req, res, next) {
+  User.update({
     _id: req.params.id
   }, {
     $set: req.body
   })
-    .then(function (err, book) {
+    .then(function (err, user) {
       res.send({
         status: 'Ok',
-        message: `${req.body.title} book has been updated`,
-        updated_book: book
+        message: `${req.body.name} has been updated`,
+        updated_user: user
       })
     })
 }
 
-Books.deleteBook = function (req, res, next) {
-  Book.remove({
+Users.deleteBook = function (req, res, next) {
+  User.remove({
     _id: req.params.id
   })
     .then(function () {
       res.send({
         status: 'Ok',
-        message: `The book has been deleted`
+        message: `The user has been deleted`
       })
     })
     .catch(function (err) {
