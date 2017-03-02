@@ -1,6 +1,6 @@
 var passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy,
-  // User = require('../models/user')
+  User = require('../models/user')
 
 passport.use(new LocalStrategy(
   function (username, password, done) {
@@ -21,7 +21,7 @@ passport.use(new LocalStrategy(
 ))
 
 passport.serializeUser(function (user, cb) {
-  cb(null, user.id)
+  cb(null, user)
 })
 
 module.exports = passport

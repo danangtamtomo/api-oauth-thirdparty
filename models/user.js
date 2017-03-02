@@ -10,7 +10,7 @@ var userSchema = mongoose.Schema({
     type: String,
     unique: true
   },
-  age: Number
+  age: Number,
   phone: String,
   salt: String,
   role: String
@@ -19,13 +19,12 @@ var userSchema = mongoose.Schema({
 })
 
 userSchema.methods.validPassword = function (password) {
-  if (this.model('User').password !== password) {
+  if (this.password !== password) {
     return false
   }
 
   return true
 }
-
 
 var user = mongoose.model('User', userSchema)
 

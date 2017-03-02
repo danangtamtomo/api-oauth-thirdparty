@@ -1,47 +1,64 @@
-var User = require('../models').User
-var jwt = require('jsonwebtoken')
-var crypto = require('crypto')
+var User = require('../models/user')
 
 var Users = {}
 
-Users.getUsers = function (req, res) {
-  User.findAll().then(function (users) {
-    res.json(users)
-  })
+Users.getBooks = function (req, res, next) {
+  User.find({})
+    .then(function (users) {
+      res.send(users)
+    })
 }
 
-Users.getUser = function (req, res) {
-  User.findById(req.params.id).then(function (user) {
-    res.json(user)
-  })
-}
-
-Users.addUser = function (req, res) {}
-
-Users.deleteUser = function (req, res) {
-  User.destroy({
-    where: {
-      id: req.params.id
-    }
-  }).then(function (status) {
-    res.status(200).send({
-      'status': status,
-      'message': `The data with id ${req.params.id} has been deleted`
+Users.createUser = function (req, res, next) {
+  var user = new User(req.body)
+  user.save()
+    .then(function (user) {
+      res.send({
+        status: 'Ok',
+        message: 'New book has been created',
+        book: book
+      })
+    }).catch(function (err) {
+    res.send({
+      status: 'Error',
+      message: err
     })
   })
 }
 
-Users.updateUser = function (req, res) {
-  User.update(req.body, {
-    where: {
-      id: req.params.id
-    }
-  }).then(function (status) {
-    res.status(200).send({
-      'status': status,
-      'message': `The data with id ${req.params.id} has been updated`
-    })
+Books.updateBook = function (req, res, next) {
+  Book.update({
+    _id: req.params.id
+  }, {
+    $set: req.body
   })
+    .then(function (err, book) {
+      res.send({
+        status: 'Ok',
+        message: `${req.body.title} book has been updated`,
+        updated_book: book
+      })
+    })
 }
 
-module.exports = Users
+Books.deleteBook = function (req, res, next) {
+  Book.remove({
+    _id: req.params.id
+  })
+    .then(function () {
+      res.send({
+        status: 'Ok',
+        message: `The book has been deleted`
+      })
+    })
+    .catch(function (err) {
+      if (err) {
+        res.send({
+          status: 'Error',
+          message: err
+        })
+      }
+    })
+}
+
+module.exports = Books
