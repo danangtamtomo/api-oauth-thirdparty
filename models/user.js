@@ -18,6 +18,14 @@ var userSchema = mongoose.Schema({
   timestamps: true
 })
 
+userSchema.methods.validPassword = function (password) {
+  if (this.model('User').password !== password) {
+    return false
+  }
+  
+  return true
+}
+
 
 var user = mongoose.model('User', userSchema)
 
