@@ -16,7 +16,7 @@ Users.createUser = function (req, res, next) {
       res.send({
         status: 'Ok',
         message: 'New user has been created',
-        book: book
+        user: user
       })
     }).catch(function (err) {
     res.send({
@@ -61,4 +61,4 @@ Users.deleteBook = function (req, res, next) {
     })
 }
 
-module.exports = Books
+module.exports = Users
